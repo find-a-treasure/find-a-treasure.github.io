@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-size: 36px;
+      font-family: Rubik, Roboto Slab, Open Sans, Roboto, Arial, sans-serif;
+    }
+    @-webkit-keyframes colors-rainbow {
+      0% {background: rgba(0, 0, 0, 0.4);}
+      14% {background: rgba(255, 0, 0, 0.4);}
+      28% {background: rgba(0, 255, 0, 0.4);}
+      42% {background: rgba(0, 0, 255, 0.4);}
+      54% {background: rgba(255, 255, 0, 0.4);}
+      68% {background: rgba(255, 0, 255, 0.4);}
+      92% {background: rgba(0, 255, 255, 0.4);}
+      100% {background: rgba(255, 255, 255, 0.4);}
+    }
+    @-moz-keyframes colors-rainbow {
+      0% {background: rgba(0, 0, 0, 0.4);}
+      14% {background: rgba(255, 0, 0, 0.4);}
+      28% {background: rgba(0, 255, 0, 0.4);}
+      42% {background: rgba(0, 0, 255, 0.4);}
+      54% {background: rgba(255, 255, 0, 0.4);}
+      68% {background: rgba(255, 0, 255, 0.4);}
+      92% {background: rgba(0, 255, 255, 0.4);}
+      100% {background: rgba(255, 255, 255, 0.4);}
+    }
+    @-ms-keyframes colors-rainbow {
+      0% {background: rgba(0, 0, 0, 0.4);}
+      14% {background: rgba(255, 0, 0, 0.4);}
+      28% {background: rgba(0, 255, 0, 0.4);}
+      42% {background: rgba(0, 0, 255, 0.4);}
+      54% {background: rgba(255, 255, 0, 0.4);}
+      68% {background: rgba(255, 0, 255, 0.4);}
+      92% {background: rgba(0, 255, 255, 0.4);}
+      100% {background: rgba(255, 255, 255, 0.4);}
+    }
+    @keyframes colors-rainbow {
+      0% {background: rgba(0, 0, 0, 0.4);}
+      14% {background: rgba(255, 0, 0, 0.4);}
+      28% {background: rgba(0, 255, 0, 0.4);}
+      42% {background: rgba(0, 0, 255, 0.4);}
+      54% {background: rgba(255, 255, 0, 0.4);}
+      68% {background: rgba(255, 0, 255, 0.4);}
+      92% {background: rgba(0, 255, 255, 0.4);}
+      100% {background: rgba(255, 255, 255, 0.4);}
+    }
+    @-webkit-keyframes sel-blue {
+      from {background: rgba(0, 0, 255, 1);}
+      50% {background: rgba(0, 0, 255, 0.5);}
+      to {background: rgba(0, 0, 255, 0);}
+    }
+    @-moz-keyframes sel-blue {
+      from {background: rgba(0, 0, 255, 1);}
+      50% {background: rgba(0, 0, 255, 0.5);}
+      to {background: rgba(0, 0, 255, 0);}
+    }
+    @-ms-keyframes sel-blue {
+      from {background: rgba(0, 0, 255, 1);}
+      50% {background: rgba(0, 0, 255, 0.5);}
+      to {background: rgba(0, 0, 255, 0);}
+    }
+    @keyframes sel-blue {
+      from {background: rgba(0, 0, 255, 1);}
+      50% {background: rgba(0, 0, 255, 0.5);}
+      to {background: rgba(0, 0, 255, 0);}
+    }
+    body {
+      background-image: url("resources/background.jpg");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      margin: 0px;
+      padding: 0px;
+    }
+    .header {
+      background-color: #ffff8f;
+      width: 100%;
+      margin: 0px;
+      margin-top: 20px;
+      margin-bottom: 100px;
+      text-align: center;
+    }
+    main {
+      padding: 10px 10px 10px 10px;
+    }
+    .panel {
+      margin: 15px auto 0px auto;
+      background: #ffff8f;
+      padding: 30px;
+      width: 90%;
+    }
+    .hideit {
+      display: none;
+    }
+    canvas {
+      border: thick solid black;
+    }
+    .btn {
+      display: block;
+      border: none;
+      background: #444;
+      color: #fff;
+      padding: 10px 28px;
+      font-variant: small-caps;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .fullwidth {
+      width: 100%;
+    }
+    #field {
+      display: grid;
+      background: #008000;
+      grid-template-columns: repeat(10, auto);
+      grid-template-rows: repeat(10, auto);
+      grid-gap: 10px;
+      padding: 10px;
+    }
+    .fieldcell {
+      background: #ffaa00;
+      padding: 25%;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .modal {
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      overflow: auto;
+    }
+    .modalclose {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .modalclose:hover,
+    .modalclose:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .showit {
+      display: block;
+    }
+    .bgwhite {
+      background: #ffffff;
+    }
+    .player {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      background: #007f00;
+      transform: rotate(45deg);
+    }
+    .kb__btn {
+      background: url("resources/keyboard-button.png") round;
+      padding: 10px 20px;
+      margin: 10px;
+    }
+    .star {
+      background: url("resources/star.png") round;
+      width: 30px;
+      height: 30px;
+    }
+    .anim-colors {
+      animation: colors-rainbow 3s ease-in-out infinite;
+    }
+    .coin {
+      background: url("resources/coin.png") round;
+      width: 30px;
+      height: 30px;
+    }
+    .timer, #timer {
+      text-align: right;
+      padding: 20px;
+      font-weight: bold;
+    }
+    #coincount, .cc {
+      text-align: right;
+      padding: 20px;
+      font-weight: bold;
+    }
+    .select {
+      animation: sel-blue 3s ease-in-out;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <title>Найди клад</title>
+  <audio id="snderror">
+    <source src="resources/error.wav" type="audio/x-wav">
+    <source src="resources/error.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="sndkeypress">
+    <source src="resources/keypress.wav" type="audio/x-wav">
+    <source src="resources/keypress.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="sndbg" loop>
+    <source src="resources/background.wav" type="audio/x-wav">
+    <source src="resources/background.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="sndbonus">
+    <source src="resources/bonus.wav" type="audio/x-wav">
+    <source src="resources/bonus.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="sndmagic">
+    <source src="resources/magic.wav" type="audio/x-wav">
+    <source src="resources/magic.mp3" type="audio/mpeg">
+  </audio>
+</head>
+
+<body>
+  <header>
+    <div class="hideit">Стили не поддерживаются. Пожалуйста, включите стили и обновите страницу.</div>
+    <noscript>
+      <div class="modal bgwhite">
+        JavaScript не поддерживается. Пожалуйста, разрешите JavaScript и обновите страницу.
+      </div>
+    </noscript>
+    <div class="header">Найди клад</div>
+  </header>
+  <main>
+    <div id="modalhere"></div>
+    <script>
+      "use strict";
+      const KEY_ENTER = 13;
+      const KEY_SPACE = 32;
+      const KEY_LEFT = 37;
+      const KEY_UP = 38;
+      const KEY_RIGHT = 39;
+      const KEY_DOWN = 40;
+      const KEY_V = 86;
+      const KEY_M = 77;
+      const KEY_F = 70;
+      const KEY_PLUS = 107;
+      const KEY_MINUS = 109;
+      const BONUSES = [
+        function() {
+          modalHere.innerHTML = "<div class='modal anim-colors'></div>";
+          setTimeout(closeModal, 5000);
+        },
+        function() {
+          let diff = treasureCell - myPos;
+          let res = "";
+          if(diff === 1) {
+            res = "вправо";
+          }
+          else if(diff === 10) {
+            res = "вниз";
+          }
+          else if(diff === -1) {
+            res = "влево";
+          }
+          else if(diff === -10) {
+            res = "вверх";
+          }
+          else {
+            let treasureRow = Math.floor(treasureCell / 10) + 1;
+            let myRow = Math.floor(myPos / 10) + 1;
+            let treasureCol = treasureCell % 10;
+            let myCol = myPos % 10;
+            if(myCol === 0) {
+              myCol = 10;
+            }
+            if(treasureCol === 0) {
+              treasureCol = 10;
+            }
+            res = advPrompt(treasureCol, treasureRow, myCol, myRow);
+          }
+          let msg = "<p>Можно переместиться " + res + ".</p>";
+          if (coins > 10) {
+            showModal(msg, true);
+            coins -= 10
+          } else {
+            sndError.play();
+            showModal("<p>Недостаточно монеток (нужно 10)</p>", true);
+          }
+        },
+        function() {
+          let c = Math.floor(Math.random() * 11) + 5;
+          showModal("<p>Аванс " + c + "монеток</p>", true);
+          coins += c;
+        },
+        function() {
+          let c = Math.floor(Math.random() * 20) + 1;
+          if (rem - c < 7) {
+              c = Math.floor(rem / 3);
+          }
+          rem -= c;
+          updateTime()
+          showModal("<p>Штраф " + c + " секунд</p>", true);
+        },
+        function() {
+          if (coins > 4) {
+            coins -= 4;
+            initField(false)
+          } else {
+            sndError.play();
+            showModal("<p>Недостаточно монеток (нужно 4)</p>", true);
+          }
+        }
+      ];
+      let treasureCell = 100 - (((Math.floor(Math.random() * 90) + 11) +
+                                 (Math.floor(Math.random() * 90) + 11)) % 100 + 1);
+      let cells = [];
+      let features = {};
+      let playing = false;
+      let myPos = 1;
+      let sndError = null;
+      let sndKeypress = null;
+      let sndBackground = null;
+      let sndBonus = null;
+      let sndMagic = null;
+      let modalHere = null;
+      let gameIntervalID = 0;
+      let coins = 0;
+      let args;
+      let rem = 60;
+      let timer = null;
+      let timerID;
+      let n = 0;
+      function argParse() {
+        let l = window.location;
+        if(!l) return {};
+        let s = l.search;
+        if(!s) return {};
+        s = s.slice(1, s.length);
+        if(!s) return {};
+        let spl = s.split('&');
+        let res = {};
+        let a, b, x;
+        spl.forEach(function(val, index, arr) {
+          x = val.split("=");
+          a = x[0];
+          b = x[1];
+          if(b) {
+            res[a] = b;
+          }
+        });
+        return res;
+      }
+      function advPrompt(tc, tr, mc, mr) {
+        let r = "";
+        if(tc < mc) {
+          r += "влево или ";
+        }
+        else if(tc > mc) {
+          r += "вправо или ";
+        }
+        if(tr < mr) {
+          r += "вверх";
+        }
+        else if(tr > mr) {
+          r += "вниз";
+        } else {
+          r = r.slice(0, r.length - 5);
+        }
+        return r;
+      }
+      function initSound() {
+        sndError = document.getElementById("snderror");
+        sndBonus = document.getElementById("sndbonus");
+        sndKeypress = document.getElementById("sndkeypress");
+        sndBackground = document.getElementById("sndbg");
+        sndMagic = document.getElementById("sndmagic");
+        sndBackground.volume = 1.0;
+        modalHere = document.getElementById("modalhere");
+      }
+      function showModal(text, showClose=true) {
+        let res = "<div class='modal'><div class='modal-content'>";
+        if(showClose) {
+          res += "<span class='modalclose' onclick='closeModal();'>&times;</span>";
+        }
+        res += text;
+        res += "</div></div>";
+        modalHere.innerHTML = res;
+      }
+      function closeModal() {
+        modalHere.innerHTML = "";
+      }
+      function updateTime(h=true) {
+        if (h) {
+          timer.innerHTML = Math.floor(rem / 60) + ":" + rem % 60;
+        } else {
+          timer.style.display = "none";
+
+        }
+      }
+      document.body.onload = function(e) {
+        initSound();
+        initField();
+        args = argParse();
+        timer = document.getElementById("timer");
+      }
+      document.body.onkeyup = function(e) {
+        if(!playing) {
+          if(e.keyCode === KEY_ENTER || e.keyCode === KEY_SPACE) {
+            startGame();
+          }
+        }
+        else {
+          if(Object.keys(features).includes(e.keyCode.toString())) {
+            features[e.keyCode]();
+          }
+          else if(e.keyCode === KEY_LEFT) {
+            myPos = movedLeft(myPos);
+          }
+          else if(e.keyCode === KEY_UP) {
+            myPos = movedUp(myPos);
+          }
+          else if(e.keyCode === KEY_RIGHT) {
+            myPos = movedRight(myPos);
+          }
+          else if(e.keyCode === KEY_DOWN) {
+            myPos = movedDown(myPos);
+          }
+          else if(e.keyCode === KEY_V) {
+            features[KEY_PLUS] = function() {
+              let vol = sndBackground.volume;
+              if(vol === 0.3) {
+                sndBackground.volume = 0.5;
+              }
+              else if(vol === 0.5) {
+                sndBackground.volume = 0.7;
+              }
+              else if(vol === 0.7) {
+                sndBackground.volume = 1.0;
+                delete features[KEY_PLUS];
+                delete features[KEY_MINUS];
+              }
+            }
+            features[KEY_MINUS] = function() {
+              let vol = sndBackground.volume;
+              if(vol === 1.0) {
+                sndBackground.volume = 0.7;
+              }
+              else if(vol === 0.7) {
+                sndBackground.volume = 0.5;
+              }
+              else if(vol === 0.5) {
+                sndBackground.volume = 0.3;
+                delete features[KEY_PLUS];
+                delete features[KEY_MINUS];
+              }
+            }
+          }
+          else if(e.keyCode === KEY_M) {
+            sndBackground.muted = !sndBackground.muted;
+            sndError.muted = !sndError.muted;
+            sndKeypress.muted = !sndKeypress.muted;
+            sndBonus.muted = !sndBonus.muted;
+          }
+          else if(e.keyCode === KEY_F) {
+            cells[treasureCell].innerHTML = "<div class=\"select\"></div>"
+            sndMagic.play();
+            coins = 0;
+            setTimeout(function() {cells[treasureCell].innerHTML = "";}, 3000)
+          }
+        }
+      }
+      function pickColor() {
+        let res = "#";
+        for(let i=0; i<6; ++i) {
+          res += "0123456789abcdef"[Math.floor(Math.random() * 16)];
+        }
+        return res;
+      }
+      function lastElementOf(s) {
+        return s[s.length - 1];
+      }
+      function showTips() {
+        if(args["notip"] !== "1") {
+          showTips1();
+        }
+      }
+      function showTips1() {
+        closeModal();
+        showModal("<p>Привет! Смотри, что тут есть:</p><button class='btn' style='float: right;' onclick='showTips2();'>&gt;&gt;</button>", true);
+      }
+      function showTips2() {
+        closeModal();
+        showModal("<div>Нажимай клавиши <span class='kb__btn'>&#x25B2;</span><span class='kb__btn'>&#x25B6;</span><span class='kb__btn'>&#x25BC;</span><span class='kb__btn'>&#x25C0;</span> для перемещения.</div><button class='btn' style='float: right;' onclick='showTips3();'>&gt;&gt;</button>", true);
+      }
+      function showTips3() {
+        closeModal();
+        showModal("<p>Чтобы прибавить громкость, нажми <span class='kb__btn'>v</span><span class='kb__btn'>+</span>. Чтобы уменьшить, <span class='kb__btn'>v</span><span class='kb__btn'>-</span>.</p><div><span class='kb__btn'>m</span> - без звука и обратно.</div><button class='btn' style='float: right;' onclick='showTips4();'>&gt;&gt;</button>", true);
+      }
+      function showTips4() {
+        closeModal();
+        showModal("<div>Итак, найди клад.</div><button class='btn' style='float: right;' onclick='closeModal();'>СТАРТ</button>", false);
+      }
+      function movedLeft(pos) {
+        closeModal();
+        if(lastElementOf(pos.toString()) == "1") {
+          sndError.play();
+          return pos;
+        }
+        sndKeypress.play();
+        return pos - 1;
+      }
+      function movedRight(pos) {
+        closeModal();
+        if(lastElementOf(pos.toString()) == "0") {
+          sndError.play();
+          return pos;
+        }
+        sndKeypress.play();
+        return pos + 1;
+      }
+      function movedUp(pos) {
+        closeModal();
+        if(pos <= 10) {
+          sndError.play();
+          return pos;
+        }
+        sndKeypress.play();
+        return pos - 10;
+      }
+      function movedDown(pos) {
+        closeModal();
+        if(pos > 90) {
+          sndError.play();
+          return pos;
+        }
+        sndKeypress.play();
+        return pos + 10;
+      }
+      function initField(treasure=true) {
+        for(var i = 1; i <= 100; ++i) {
+          cells[i] = document.getElementById("field" + i);
+          cells[i].innerHTML = "&nbsp;";
+          if((i === treasureCell) || (i === 1));
+          else if(Math.floor(Math.random() * 15) === 7) {
+            cells[i].classList.add("star");
+            n += 1;
+          }
+          else if(Math.floor(Math.random() * 10) === 4) {
+            cells[i].classList.add("coin");
+            n += 1;
+          }
+        }
+        if (treasure) cells[treasureCell].classList.add("treasurehere");
+      }
+      function startGame() {
+        sndBackground.play();
+        var intro = document.getElementById("intro");
+        if (intro.classList) {
+          intro.classList.add("hideit");
+        } else {
+          intro.style.display = "none";
+        }
+        var gameArea = document.getElementById("gamearea");
+        if (gameArea.classList) {
+          gameArea.classList.remove("hideit");
+        } else {
+          gameArea.style.display = "block";
+        }
+        play(gameArea);
+      }
+      function clearField() {
+        var c = document.getElementsByClassName("fieldcell");
+        for(var i = 0; i < c.length; ++i) {
+          c[i].innerHTML = "&nbsp;";
+        }
+      }
+      function displayMeAt(x) {
+        clearField();
+        cells[x].innerHTML = "<div class='player'>&nbsp;</div>";
+      }
+      function checkTouch() {
+        let c = cells[myPos];
+        if(c.classList.contains("treasurehere")) {
+          let t = Math.floor(rem / 60) + ":" + rem % 60;
+          features[KEY_DOWN] = function() {};
+          features[KEY_UP] = function() {};
+          features[KEY_LEFT] = function() {};
+          features[KEY_RIGHT] = function() {};
+          showModal("<div class=\"timer\">" + t + "</div><p>Ура! Вы нашли сокровище!</p><p>Ещё у вас " + coins + " монеток.</p>", false);
+          clearInterval(timerID);
+          updateTime(false);
+        }
+        else if(c.classList.contains("star")) {
+          c.classList.remove("star");
+          n -= 1;
+          sndBonus.play();
+          BONUSES[Math.floor(Math.random() * BONUSES.length)]();
+        }
+        else if(c.classList.contains("coin")) {
+          c.classList.remove("coin");
+          n -= 1;
+          sndBonus.play();
+          coins += 1;
+          if(coins % 10 == 0) {
+            rem += 10 * (coins / 10);
+          }
+        }
+        if (n === 0) {
+          initField(false);
+        }
+      }
+      function play(gameArea) {
+        playing = true;
+        displayMeAt(myPos);
+        if (!args["notip"]) {
+          setTimeout(showTips, 100);
+        }
+        gameIntervalID = setInterval(function() {
+          document.getElementById("coincount").innerHTML = coins;
+          displayMeAt(myPos);
+          checkTouch();
+        }, 30);
+        updateTime();
+        timerID = setInterval(function() {
+          rem--;
+          if(rem == -1) {
+            features[KEY_DOWN] = function() {};
+            features[KEY_UP] = function() {};
+            features[KEY_LEFT] = function() {};
+            features[KEY_RIGHT] = function() {};
+            showModal("<p>К сожалению, время вышло :(</p>", false);
+            clearInterval(timerID);
+          } else {
+            updateTime();
+          }
+        }, 1000);
+      }
+    </script>
+    <div class="panel" id="intro">
+      <div style="text-align: center;">
+        <p>Ну что, в путь? Скорее найди клад!</p>
+        <p>Удачи!</p>
+        <button class="btn fullwidth" onclick="startGame();">СТАРТ</button>
+      </div>
+    </div>
+    <div class="panel hideit" id="gamearea">
+      <div id="timer"></div>
+      <div class="cc"><img src="resources/coin.png" width=30 height=30></span><span id="coincount"></span></div>
+      <div id="field">
+        <div id="field1" class="fieldcell"></div>
+        <div id="field2" class="fieldcell"></div>
+        <div id="field3" class="fieldcell"></div>
+        <div id="field4" class="fieldcell"></div>
+        <div id="field5" class="fieldcell"></div>
+        <div id="field6" class="fieldcell"></div>
+        <div id="field7" class="fieldcell"></div>
+        <div id="field8" class="fieldcell"></div>
+        <div id="field9" class="fieldcell"></div>
+        <div id="field10" class="fieldcell"></div>
+        <div id="field11" class="fieldcell"></div>
+        <div id="field12" class="fieldcell"></div>
+        <div id="field13" class="fieldcell"></div>
+        <div id="field14" class="fieldcell"></div>
+        <div id="field15" class="fieldcell"></div>
+        <div id="field16" class="fieldcell"></div>
+        <div id="field17" class="fieldcell"></div>
+        <div id="field18" class="fieldcell"></div>
+        <div id="field19" class="fieldcell"></div>
+        <div id="field20" class="fieldcell"></div>
+        <div id="field21" class="fieldcell"></div>
+        <div id="field22" class="fieldcell"></div>
+        <div id="field23" class="fieldcell"></div>
+        <div id="field24" class="fieldcell"></div>
+        <div id="field25" class="fieldcell"></div>
+        <div id="field26" class="fieldcell"></div>
+        <div id="field27" class="fieldcell"></div>
+        <div id="field28" class="fieldcell"></div>
+        <div id="field29" class="fieldcell"></div>
+        <div id="field30" class="fieldcell"></div>
+        <div id="field31" class="fieldcell"></div>
+        <div id="field32" class="fieldcell"></div>
+        <div id="field33" class="fieldcell"></div>
+        <div id="field34" class="fieldcell"></div>
+        <div id="field35" class="fieldcell"></div>
+        <div id="field36" class="fieldcell"></div>
+        <div id="field37" class="fieldcell"></div>
+        <div id="field38" class="fieldcell"></div>
+        <div id="field39" class="fieldcell"></div>
+        <div id="field40" class="fieldcell"></div>
+        <div id="field41" class="fieldcell"></div>
+        <div id="field42" class="fieldcell"></div>
+        <div id="field43" class="fieldcell"></div>
+        <div id="field44" class="fieldcell"></div>
+        <div id="field45" class="fieldcell"></div>
+        <div id="field46" class="fieldcell"></div>
+        <div id="field47" class="fieldcell"></div>
+        <div id="field48" class="fieldcell"></div>
+        <div id="field49" class="fieldcell"></div>
+        <div id="field50" class="fieldcell"></div>
+        <div id="field51" class="fieldcell"></div>
+        <div id="field52" class="fieldcell"></div>
+        <div id="field53" class="fieldcell"></div>
+        <div id="field54" class="fieldcell"></div>
+        <div id="field55" class="fieldcell"></div>
+        <div id="field56" class="fieldcell"></div>
+        <div id="field57" class="fieldcell"></div>
+        <div id="field58" class="fieldcell"></div>
+        <div id="field59" class="fieldcell"></div>
+        <div id="field60" class="fieldcell"></div>
+        <div id="field61" class="fieldcell"></div>
+        <div id="field62" class="fieldcell"></div>
+        <div id="field63" class="fieldcell"></div>
+        <div id="field64" class="fieldcell"></div>
+        <div id="field65" class="fieldcell"></div>
+        <div id="field66" class="fieldcell"></div>
+        <div id="field67" class="fieldcell"></div>
+        <div id="field68" class="fieldcell"></div>
+        <div id="field69" class="fieldcell"></div>
+        <div id="field70" class="fieldcell"></div>
+        <div id="field71" class="fieldcell"></div>
+        <div id="field72" class="fieldcell"></div>
+        <div id="field73" class="fieldcell"></div>
+        <div id="field74" class="fieldcell"></div>
+        <div id="field75" class="fieldcell"></div>
+        <div id="field76" class="fieldcell"></div>
+        <div id="field77" class="fieldcell"></div>
+        <div id="field78" class="fieldcell"></div>
+        <div id="field79" class="fieldcell"></div>
+        <div id="field80" class="fieldcell"></div>
+        <div id="field81" class="fieldcell"></div>
+        <div id="field82" class="fieldcell"></div>
+        <div id="field83" class="fieldcell"></div>
+        <div id="field84" class="fieldcell"></div>
+        <div id="field85" class="fieldcell"></div>
+        <div id="field86" class="fieldcell"></div>
+        <div id="field87" class="fieldcell"></div>
+        <div id="field88" class="fieldcell"></div>
+        <div id="field89" class="fieldcell"></div>
+        <div id="field90" class="fieldcell"></div>
+        <div id="field91" class="fieldcell"></div>
+        <div id="field92" class="fieldcell"></div>
+        <div id="field93" class="fieldcell"></div>
+        <div id="field94" class="fieldcell"></div>
+        <div id="field95" class="fieldcell"></div>
+        <div id="field96" class="fieldcell"></div>
+        <div id="field97" class="fieldcell"></div>
+        <div id="field98" class="fieldcell"></div>
+        <div id="field99" class="fieldcell"></div>
+        <div id="field100" class="fieldcell"></div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
